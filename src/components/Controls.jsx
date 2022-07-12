@@ -2,7 +2,8 @@ import { Search } from './Search';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { CustomSelect } from './CustomSelect';
-
+import { searchByRegion } from '../config';
+import axios from 'axios';
 const options = [
   { value: 'Africa', label: 'Africa' },
   { value: 'America', label: 'America' },
@@ -23,9 +24,14 @@ const Wrapper = styled.div`
   }
 `;
 
-export const Controls = () => {
+export const Controls = ({ onSearch }) => {
   const [search, setSearch] = useState('');
   const [region, setRegion] = useState('');
+  useEffect(() => {
+    const regionValue = region?.value || '';
+    onSearch(search, regionValue);
+  }, [search, region]);
+
   return (
     <Wrapper>
       <Search search={search} setSearch={setSearch} />
